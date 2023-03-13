@@ -1,0 +1,30 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="400"
+        x:Class="Rabid_Time_Tracker.MainWindow"
+        Title="Rabid Time Tracker">
+  <Grid RowDefinitions="30, 10, 30, *, 10, 15, 60, 10, 30" Margin="10">
+    <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Left">
+      <Label Content="Project"/>      
+      <ComboBox x:Name="combobox_project"/>      
+      <Button x:Name="btn_manage_projects" Content="Edit Projects" Margin="5,0" Width="150" HorizontalContentAlignment="Center"/>
+    </StackPanel>        
+    <Label Content="Note" Grid.Row="2"/>    
+    <TextBox x:Name="textbox_note" Grid.Row="3"/>
+    <StackPanel Orientation="Horizontal" Grid.Row="5" HorizontalAlignment="Center">
+      <TextBlock Text="Session" Grid.Row="5" FontSize="15" HorizontalAlignment="Center"/>
+      <TextBlock x:Name="lbl_currentSession" Text="00:00:00" FontSize="15" HorizontalAlignment="Center" Margin="5,0"/>
+    </StackPanel>
+    <TextBlock x:Name="lbl_currentTimer" Text="00:00:00" FontSize="50" FontWeight="Bold" Grid.Row="6" HorizontalAlignment="Center"/>
+    <StackPanel Orientation="Horizontal" Grid.Row="8" HorizontalAlignment="Center">
+      <Button x:Name="btn_start_stop" Content="Start" Margin="5,0" Width="150"
+            HorizontalContentAlignment="Center" HorizontalAlignment="Center"
+            Click="OnStartStopClicked"/>
+      <Button x:Name="btn_pause_resume" Content="Pause" Margin="5,0" Width="150"
+            HorizontalContentAlignment="Center" HorizontalAlignment="Center"
+            Click="OnPauseResumeClicked"/>
+    </StackPanel>
+  </Grid>
+</Window>
