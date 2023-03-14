@@ -10,14 +10,16 @@ namespace Rabid_Time_Tracker
     public partial class MainWindow : Window
     {
         bool _clockRunning = false;
-        TimeSpan _currentSesssion;
-        TimeSpan _currentTimer;
+        Session _currentSesssion;
+        Period _currentPeriod;
         Timer _timer;
 
         public MainWindow()
         {
             InitializeComponent();
-            
+
+            _currentSesssion = new Session(DateTime.Now);            
+
             _timer = new Timer(1000);
             _timer.Elapsed += _timer_Elapsed;
         }
@@ -38,15 +40,15 @@ namespace Rabid_Time_Tracker
         {
             Dispatcher.UIThread.InvokeAsync(new Action(() =>
             {
-                lbl_currentSession.Text = _currentSesssion.ToString("c");
-                lbl_currentTimer.Text = _currentTimer.ToString("c");
+                lbl_currentSession.Text = TimeSpan.FromSeconds(_currentSesssion.Seconds).ToString("c");
+                lbl_currentTimer.Text = TimeSpan.FromSeconds(_currentPeriod.Seconds).ToString("c");
             }));
         }
 
         private void _timer_Elapsed(object? sender, ElapsedEventArgs e)
         {
-            _currentSesssion = _currentSesssion.Add(new TimeSpan(0, 0, 1));
-            _currentTimer = _currentTimer.Add(new TimeSpan(0, 0, 1));
+            _currentSesssion.AddSecond();
+            _currentPeriod.AddSecond();
 
             UpdateLbls();            
         }
@@ -59,6 +61,10 @@ namespace Rabid_Time_Tracker
                 btn_start_stop.Content = "Stop";
                 _timer.Start();
                 lbl_note.Text = textbox_note.Text;
+
+                //create new period and add to current session
+                _currentPeriod = new Period("Project", lbl_note.Text);
+                _currentSesssion.AddPeriod(_currentPeriod);
             }
             else
             {
