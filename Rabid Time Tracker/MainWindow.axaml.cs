@@ -17,27 +17,22 @@ namespace Rabid_Time_Tracker
         public MainWindow()
         {
             InitializeComponent();
-
-            btn_pause_resume.IsEnabled = _clockRunning;
+            
             _timer = new Timer(1000);
             _timer.Elapsed += _timer_Elapsed;
         }
 
-        void ToggleTimer(bool paused)
+        #region -> first page
+        public void OnStartTrackingClicked(object sender, RoutedEventArgs e)
         {
-            if (_clockRunning)
-            {
-                if (!paused)
-                    _currentTimer = TimeSpan.Zero;
-                
-                _timer.Start();                
-                UpdateLbls();
-            }
-            else
-            {
-                _timer.Stop();
-            }
+            grid_project.IsVisible = false;
+            grid_Tracking.IsVisible = true;
+
+            OnStartStopClicked(sender, e);
         }
+        #endregion
+
+        #region -> second page / timer       
 
         void UpdateLbls()
         {
@@ -60,23 +55,21 @@ namespace Rabid_Time_Tracker
         {
             _clockRunning = !_clockRunning;
             if (_clockRunning)
+            {
                 btn_start_stop.Content = "Stop";
+                _timer.Start();
+                lbl_note.Text = textbox_note.Text;
+            }
             else
+            {
                 btn_start_stop.Content = "Start";
+                grid_project.IsVisible = true;
+                grid_Tracking.IsVisible = false;
+                _timer.Stop();
+            }
 
-            btn_pause_resume.IsEnabled = _clockRunning;
-            ToggleTimer(false);            
+            UpdateLbls();
         }
-
-        public void OnPauseResumeClicked(object sender, RoutedEventArgs e)
-        {
-            _clockRunning = !_clockRunning;
-            if (_clockRunning)
-                btn_pause_resume.Content = "Pause";
-            else
-                btn_pause_resume.Content = "Resume";
-
-            ToggleTimer(true);
-        }
+        #endregion
     }
 }

@@ -5,26 +5,30 @@
         mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="400"
         x:Class="Rabid_Time_Tracker.MainWindow"
         Title="Rabid Time Tracker">
-  <Grid RowDefinitions="30, 10, 30, *, 10, 15, 60, 10, 30" Margin="10">
-    <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Left">
-      <Label Content="Project"/>      
-      <ComboBox x:Name="combobox_project"/>      
-      <Button x:Name="btn_manage_projects" Content="Edit Projects" Margin="5,0" Width="150" HorizontalContentAlignment="Center"/>
-    </StackPanel>        
-    <Label Content="Note" Grid.Row="2"/>    
-    <TextBox x:Name="textbox_note" Grid.Row="3"/>
-    <StackPanel Orientation="Horizontal" Grid.Row="5" HorizontalAlignment="Center">
-      <TextBlock Text="Session" Grid.Row="5" FontSize="15" HorizontalAlignment="Center"/>
-      <TextBlock x:Name="lbl_currentSession" Text="00:00:00" FontSize="15" HorizontalAlignment="Center" Margin="5,0"/>
-    </StackPanel>
-    <TextBlock x:Name="lbl_currentTimer" Text="00:00:00" FontSize="50" FontWeight="Bold" Grid.Row="6" HorizontalAlignment="Center"/>
-    <StackPanel Orientation="Horizontal" Grid.Row="8" HorizontalAlignment="Center">
-      <Button x:Name="btn_start_stop" Content="Start" Margin="5,0" Width="150"
-            HorizontalContentAlignment="Center" HorizontalAlignment="Center"
-            Click="OnStartStopClicked"/>
-      <Button x:Name="btn_pause_resume" Content="Pause" Margin="5,0" Width="150"
-            HorizontalContentAlignment="Center" HorizontalAlignment="Center"
-            Click="OnPauseResumeClicked"/>
-    </StackPanel>
-  </Grid>
+  <Panel Margin="10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+    <Grid x:Name="grid_project" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" IsVisible="True">
+      <StackPanel Orientation="Vertical" VerticalAlignment="Stretch">
+        <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Left" Margin="0,0,0,5">
+          <Label Content="Project" HorizontalAlignment="Stretch"/>
+          <ComboBox x:Name="combobox_project"/>          
+        </StackPanel>
+        <Button x:Name="btn_manage_projects" Content="Edit Projects" Margin="5,0" Width="150" HorizontalContentAlignment="Center"/>
+        <Label Content="Note"/>
+        <TextBox x:Name="textbox_note" VerticalAlignment="Stretch" Height="150"/>
+        <Button x:Name="btn_start" Content="Start" Margin="5,5" Width="200" Height="100" FontSize="50" FontWeight="Bold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Click="OnStartTrackingClicked"/>
+      </StackPanel>
+    </Grid>
+    <Grid x:Name="grid_Tracking" IsVisible="False" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+      <StackPanel Orientation="Vertical">
+        <TextBlock x:Name="lbl_project" Text="Project" HorizontalAlignment="Left" Margin="0,0,0,10"/>
+        <TextBlock x:Name="lbl_note" Text="Note" HorizontalAlignment="Left" Margin="0,0,0,10"/>
+      <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Center">
+        <TextBlock Text="Session" Grid.Row="2" FontSize="15" HorizontalAlignment="Center"/>
+        <TextBlock x:Name="lbl_currentSession" Grid.Row="3" Text="00:00:00" FontSize="15" HorizontalAlignment="Center" Margin="5,0"/>
+      </StackPanel>      
+      <TextBlock x:Name="lbl_currentTimer" Text="00:00:00" FontSize="50" FontWeight="Bold" HorizontalAlignment="Center"/>
+      <Button x:Name="btn_start_stop" Content="Start" Margin="5,0" Width="150" FontSize="30" FontWeight="Bold" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Click="OnStartStopClicked"/>
+      </StackPanel>
+    </Grid>
+  </Panel>
 </Window>
