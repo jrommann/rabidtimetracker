@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SQLite;
+using SQLitePCL;
 
 namespace Rabid_Time_Tracker
 {
+    [Table("Sessions")]
     internal class Session
     {
         public Session(DateTime date) 
@@ -14,9 +15,13 @@ namespace Rabid_Time_Tracker
             Periods = new List<Period>();
         }
 
-        public DateTime Date { get; private set; }
-        public int Seconds { get; private set; }
+        [PrimaryKey, AutoIncrement]
+        public int ID { get; set; }
+        [Indexed]
+        public DateTime Date { get; set; }
+        public int Seconds { get; set; }
 
+        [Ignore]
         public List<Period> Periods { get; private set; }
 
         public void AddSecond()

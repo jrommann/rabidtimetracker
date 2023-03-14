@@ -1,22 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SQLite;
+using SQLitePCL;
 
 namespace Rabid_Time_Tracker
 {
+    [Table("Periods")]
     internal class Period
     {
-        public Period(string project, string note)
+        public Period(int sessionID, int projectID, string note)
         {
-            Project = project;
+            SessionID = sessionID;
+            ProjectID = projectID;
             Note = note;
         }
 
-        public string Project { get; private set; }
-        public string Note { get; private set; }
-        public int Seconds { get; private set; }
+        [PrimaryKey, AutoIncrement]
+        public int ID { get; set; }
+        [Indexed]
+        public int SessionID { get; set; }
+        [Indexed]
+        public int ProjectID { get; set; }
+        public string Note { get; set; }
+        public int Seconds { get; set; }
         
         public void AddSecond() { Seconds++; }
 
