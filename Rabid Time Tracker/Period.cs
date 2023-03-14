@@ -14,6 +14,8 @@ namespace Rabid_Time_Tracker
             SessionID = sessionID;
             ProjectID = projectID;
             Note = note;
+            StartTime = DateTime.Now;
+            EndTime = DateTime.Now;
         }
 
         [PrimaryKey, AutoIncrement]
@@ -24,8 +26,7 @@ namespace Rabid_Time_Tracker
         public int ProjectID { get; set; }
         public string Note { get; set; }
         public int Seconds { get; set; }
-        
-        public void AddSecond() { Seconds++; }
-
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
     }
 }

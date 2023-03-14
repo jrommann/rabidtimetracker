@@ -12,7 +12,6 @@ namespace Rabid_Time_Tracker
         public Session(DateTime date) 
         { 
             this.Date = date;
-            Periods = new List<Period>();
         }
 
         [PrimaryKey, AutoIncrement]
@@ -20,18 +19,20 @@ namespace Rabid_Time_Tracker
         [Indexed]
         public DateTime Date { get; set; }
         public int Seconds { get; set; }
-
         [Ignore]
-        public List<Period> Periods { get; private set; }
-
+        public Period CurrentPeriod { get; private set; }
         public void AddSecond()
         {
             Seconds++;
+            CurrentPeriod.Seconds++;
         }
 
-        public void AddPeriod(Period p)
+        public void AddPeriod(int projectID, string note)
         {
-            Periods.Add(p);
+            if (CurrentPeriod != null)
+                CurrentPeriod.EndTime = DateTime.Now;
+
+            CurrentPeriod = new Period(ID, projectID, note);            
         }
     }
 }
