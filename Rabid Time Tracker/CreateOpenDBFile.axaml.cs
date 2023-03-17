@@ -25,6 +25,11 @@ namespace Rabid_Time_Tracker
             btn_create.Click += Btn_create_Click;
             btn_existing.Click += Btn_existing_Click;
             btn_last.Click += Btn_last_Click;
+
+            if (string.IsNullOrEmpty(Settings.Default.LastOpenedFile))
+                btn_last.IsVisible = false;
+            else
+                btn_last.Content = string.Format("Open {0}", System.IO.Path.GetFileNameWithoutExtension(Settings.Default.LastOpenedFile));
         }
 
         private void CreateOpenDBFile_Closing(object? sender, System.ComponentModel.CancelEventArgs e)

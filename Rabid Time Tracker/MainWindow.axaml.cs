@@ -4,6 +4,7 @@ using Avalonia.Threading;
 using Microsoft.CodeAnalysis.FlowAnalysis;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using System.Timers;
 
@@ -18,6 +19,8 @@ namespace Rabid_Time_Tracker
         public MainWindow()
         {
             InitializeComponent();
+
+            Settings.Default.Upgrade();
 
             _timer = new Timer(1000);
             _timer.Elapsed += _timer_Elapsed;
@@ -38,15 +41,27 @@ namespace Rabid_Time_Tracker
 
             switch (result)
             {
+                #region -> open last
+                case CreateOpenDBFile.Result.OpenLast:
+                    if (File.Exists(Settings.Default.LastOpenedFile))
+                        DatabaseManager.Create(Settings.Default.LastOpenedFile);
+                    else
+                        OpenDatabaseFile();
+                    break;
+                #endregion
                 #region -> create new
                 case CreateOpenDBFile.Result.CreateNew:
                     var saveDB = new SaveFileDialog();
                     saveDB.Filters = new List<FileDialogFilter>(1) { new FileDialogFilter() { Extensions = new List<string>(1) { "rtt" } } };
                     saveDB.Title = "Save Tracker File";                    
 
-                    var file = await saveDB.ShowAsync(this);                    
-                    if(!string.IsNullOrEmpty(file))    
+                    var file = await saveDB.ShowAsync(this);
+                    if (!string.IsNullOrEmpty(file))
+                    {
+
+                        Settings.Default.LastOpenedFile = file;
                         DatabaseManager.Create(file);
+                    }
                     else
                         OpenDatabaseFile();                    
                     break;
@@ -60,12 +75,17 @@ namespace Rabid_Time_Tracker
 
                     var fileList = await openDB.ShowAsync(this);
                     if (fileList?.Length > 0)
+                    {
+                        Settings.Default.LastOpenedFile = fileList[0];
                         DatabaseManager.Create(fileList[0]);
+                    }
                     else
                         OpenDatabaseFile();
                     break;
                 #endregion
             }
+
+            Settings.Default.Save();
 
             _currentSesssion = new Session(DateTime.Now);
         }
