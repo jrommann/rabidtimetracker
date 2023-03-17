@@ -36,15 +36,34 @@ namespace Rabid_Time_Tracker
             win.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             var result = await win.ShowDialog<CreateOpenDBFile.Result>(this);
 
-            if (result == CreateOpenDBFile.Result.OpenExisting)
+            switch (result)
             {
-                #region -> open database
-                var openDB = new OpenFileDialog();
-                openDB.Filters = new List<FileDialogFilter>(1) { new FileDialogFilter() { Extensions = new List<string>(1) { "rtt" } } };
-                openDB.Title = "Select Tracker File";
-                openDB.AllowMultiple = false;
+                #region -> create new
+                case CreateOpenDBFile.Result.CreateNew:
+                    var saveDB = new SaveFileDialog();
+                    saveDB.Filters = new List<FileDialogFilter>(1) { new FileDialogFilter() { Extensions = new List<string>(1) { "rtt" } } };
+                    saveDB.Title = "Save Tracker File";                    
 
-                var fileList = await openDB.ShowAsync(this);
+                    var file = await saveDB.ShowAsync(this);                    
+                    if(!string.IsNullOrEmpty(file))    
+                        DatabaseManager.Create(file);
+                    else
+                        OpenDatabaseFile();                    
+                    break;
+                #endregion
+                #region -> open existing
+                case CreateOpenDBFile.Result.OpenExisting:                    
+                    var openDB = new OpenFileDialog();
+                    openDB.Filters = new List<FileDialogFilter>(1) { new FileDialogFilter() { Extensions = new List<string>(1) { "rtt" } } };
+                    openDB.Title = "Select Tracker File";
+                    openDB.AllowMultiple = false;
+
+                    var fileList = await openDB.ShowAsync(this);
+                    if (fileList?.Length > 0)
+                        DatabaseManager.Create(fileList[0]);
+                    else
+                        OpenDatabaseFile();
+                    break;
                 #endregion
             }
 
