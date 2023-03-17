@@ -3,6 +3,8 @@ using Avalonia.Interactivity;
 using Avalonia.Threading;
 using Microsoft.CodeAnalysis.FlowAnalysis;
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Timers;
 
 namespace Rabid_Time_Tracker
@@ -17,10 +19,36 @@ namespace Rabid_Time_Tracker
         {
             InitializeComponent();
 
-            _currentSesssion = new Session(DateTime.Now);            
-
             _timer = new Timer(1000);
             _timer.Elapsed += _timer_Elapsed;
+
+            Opened += MainWindow_Opened;
+        }
+
+        private void MainWindow_Opened(object? sender, EventArgs e)
+        {
+            OpenDatabaseFile();
+        }
+
+        async void OpenDatabaseFile()
+        {
+            var win = new CreateOpenDBFile();
+            win.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            var result = await win.ShowDialog<CreateOpenDBFile.Result>(this);
+
+            if (result == CreateOpenDBFile.Result.OpenExisting)
+            {
+                #region -> open database
+                var openDB = new OpenFileDialog();
+                openDB.Filters = new List<FileDialogFilter>(1) { new FileDialogFilter() { Extensions = new List<string>(1) { "rtt" } } };
+                openDB.Title = "Select Tracker File";
+                openDB.AllowMultiple = false;
+
+                var fileList = await openDB.ShowAsync(this);
+                #endregion
+            }
+
+            _currentSesssion = new Session(DateTime.Now);
         }
 
         #region -> first page
