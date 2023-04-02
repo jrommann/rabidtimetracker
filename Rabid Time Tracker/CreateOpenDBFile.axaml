@@ -2,15 +2,17 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="100" Width="500" Height="100"
+        mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="150" Width="500" Height="150"
         x:Class="Rabid_Time_Tracker.CreateOpenDBFile"
         Title="Create or Open Existing Tracker File">
   <StackPanel Orientation="Vertical" VerticalAlignment="Center">
     <Label Content="Create or Open Existing Tracker File" HorizontalAlignment="Center" FontSize="25" FontWeight="Bold"/>
-    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-      <Button x:Name="btn_last" Content="Open..." Width="150" HorizontalContentAlignment="Center"/>
-      <Button x:Name="btn_create" Content="Create New" Width="150" HorizontalContentAlignment="Center"/>
-      <Button x:Name="btn_existing" Content="Open Existing" Width="150" HorizontalContentAlignment="Center"/>      
+    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+      <Button x:Name="btn_last" Content="Open..." HorizontalContentAlignment="Center" HorizontalAlignment="Stretch" Width="300"/>
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">        
+        <Button x:Name="btn_create" Content="Create New" Width="150" HorizontalContentAlignment="Center"/>
+        <Button x:Name="btn_existing" Content="Open Existing" Width="150" HorizontalContentAlignment="Center"/>      
+      </StackPanel>
     </StackPanel>
   </StackPanel>
 </Window>
