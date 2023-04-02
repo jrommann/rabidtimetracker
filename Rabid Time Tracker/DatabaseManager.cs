@@ -25,5 +25,26 @@ namespace Rabid_Time_Tracker
             _db.CreateTable<Session>();
             _db.CreateTable<Period>();
         }
+
+        public void Insert(object item)
+        {
+            _db.Insert(item);
+        }
+
+        public void Update(object item)
+        {
+            _db.Update(item);
+        }
+
+        public void Delete(object item)
+        {
+            _db.Delete(item);
+        }
+
+        public List<Project> Projects_GetAll()
+        {
+            return _db.Table<Project>().ToList();
+        }
+
     }
 }
