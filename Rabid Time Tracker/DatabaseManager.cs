@@ -46,5 +46,28 @@ namespace Rabid_Time_Tracker
             return _db.Table<Project>().ToList();
         }
 
+        public Session Session_GetCurrent()
+        {
+            if (_db.Table<Session>().Count() == 0)
+            {
+                var ns = new Session(DateTime.Now);
+                Insert(ns);
+                return ns;
+            }
+
+            var s = _db.Table<Session>().Last();
+            if (s == null)
+            {
+                s = new Session(DateTime.Now);
+                Insert(s);
+            }
+            else if (s.Date.Date != DateTime.Now.Date)
+            {
+                s = new Session(DateTime.Now);
+                Insert(s);
+            }
+
+            return s;
+        }
     }
 }

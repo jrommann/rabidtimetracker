@@ -9,6 +9,7 @@ namespace Rabid_Time_Tracker
     [Table("Sessions")]
     internal class Session
     {
+        public Session() { }
         public Session(DateTime date) 
         { 
             this.Date = date;
@@ -25,6 +26,8 @@ namespace Rabid_Time_Tracker
         {
             Seconds++;
             CurrentPeriod.Seconds++;
+            DatabaseManager.Instance.Update(this);
+            DatabaseManager.Instance.Update(CurrentPeriod);
         }
 
         public void AddPeriod(int projectID, string note)
@@ -32,7 +35,8 @@ namespace Rabid_Time_Tracker
             if (CurrentPeriod != null)
                 CurrentPeriod.EndTime = DateTime.Now;
 
-            CurrentPeriod = new Period(ID, projectID, note);            
+            CurrentPeriod = new Period(ID, projectID, note);
+            DatabaseManager.Instance.Insert(CurrentPeriod);
         }
     }
 }

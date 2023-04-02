@@ -1,7 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Threading;
-using Microsoft.CodeAnalysis.FlowAnalysis;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -25,7 +24,7 @@ namespace Rabid_Time_Tracker
             _timer = new Timer(1000);
             _timer.Elapsed += _timer_Elapsed;
 
-            Opened += MainWindow_Opened;
+            Opened += MainWindow_Opened;            
         }
 
         private void MainWindow_Opened(object? sender, EventArgs e)
@@ -87,11 +86,13 @@ namespace Rabid_Time_Tracker
 
             Settings.Default.Save();
 
-            _currentSesssion = new Session(DateTime.Now);
+            _currentSesssion = DatabaseManager.Instance.Session_GetCurrent();
             combobox_project.Items = DatabaseManager.Instance.Projects_GetAll();
+            combobox_project.SelectedIndex = 0;            
         }
 
-        #region -> first page
+        #region -> first page       
+
         public void OnStartTrackingClicked(object sender, RoutedEventArgs e)
         {
             grid_project.IsVisible = false;
@@ -105,6 +106,9 @@ namespace Rabid_Time_Tracker
             var win = new Window_Projects();
             win.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             win.ShowDialog(this);
+
+            combobox_project.Items = DatabaseManager.Instance.Projects_GetAll();
+            combobox_project.SelectedIndex = 0;
         }
         #endregion
 
@@ -120,9 +124,14 @@ namespace Rabid_Time_Tracker
         }
 
         private void _timer_Elapsed(object? sender, ElapsedEventArgs e)
-        {
+        {            
             _currentSesssion.AddSecond();
-
+            if (_currentSesssion.Date.Date != DateTime.Now.Date)
+            {
+                _currentSesssion = DatabaseManager.Instance.Session_GetCurrent();
+                var project = combobox_project.SelectedItem as Project;
+                _currentSesssion.AddPeriod(project.ID, lbl_note.Text);
+            }
             UpdateLbls();            
         }
 
@@ -133,10 +142,12 @@ namespace Rabid_Time_Tracker
             {
                 btn_start_stop.Content = "Stop";
                 _timer.Start();
-                lbl_note.Text = textbox_note.Text;
+                lbl_note.Text = textbox_note.Text;               
 
-                //create new period                
-                _currentSesssion.AddPeriod(0, lbl_note.Text);
+                //create new period
+                var project = combobox_project.SelectedItem as Project;
+                _currentSesssion.AddPeriod(project.ID, lbl_note.Text);
+                lbl_project.Text = project.Name;
             }
             else
             {

@@ -9,8 +9,8 @@
     <Grid x:Name="grid_project" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" IsVisible="True">
       <StackPanel Orientation="Vertical" VerticalAlignment="Stretch">
         <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Left" Margin="0,0,0,5">
-          <Label Content="Project" HorizontalAlignment="Stretch"/>
-          <ComboBox x:Name="combobox_project"/>          
+          <Label Content="Project"/>
+          <ComboBox x:Name="combobox_project" HorizontalAlignment="Stretch"/>          
         </StackPanel>
         <Button x:Name="btn_manage_projects" Content="Edit Projects" Margin="5,0" Width="150" HorizontalContentAlignment="Center" Click="OnEditProjectsClicked"/>
         <Label Content="Note"/>
