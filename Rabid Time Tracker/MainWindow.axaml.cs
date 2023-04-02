@@ -88,6 +88,7 @@ namespace Rabid_Time_Tracker
             Settings.Default.Save();
 
             _currentSesssion = new Session(DateTime.Now);
+            combobox_project.Items = DatabaseManager.Instance.Projects_GetAll();
         }
 
         #region -> first page
