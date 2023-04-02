@@ -12,7 +12,7 @@
           <Label Content="Project" HorizontalAlignment="Stretch"/>
           <ComboBox x:Name="combobox_project"/>          
         </StackPanel>
-        <Button x:Name="btn_manage_projects" Content="Edit Projects" Margin="5,0" Width="150" HorizontalContentAlignment="Center"/>
+        <Button x:Name="btn_manage_projects" Content="Edit Projects" Margin="5,0" Width="150" HorizontalContentAlignment="Center" Click="OnEditProjectsClicked"/>
         <Label Content="Note"/>
         <TextBox x:Name="textbox_note" VerticalAlignment="Stretch" Height="150"/>
         <Button x:Name="btn_start" Content="Start" Margin="5,5" Width="200" Height="100" FontSize="50" FontWeight="Bold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Click="OnStartTrackingClicked"/>

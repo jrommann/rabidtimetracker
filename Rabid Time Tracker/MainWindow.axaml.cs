@@ -98,6 +98,13 @@ namespace Rabid_Time_Tracker
 
             OnStartStopClicked(sender, e);
         }
+
+        public void OnEditProjectsClicked(object sender, RoutedEventArgs e)
+        {
+            var win = new Window_Projects();
+            win.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            win.ShowDialog(this);
+        }
         #endregion
 
         #region -> second page / timer       
