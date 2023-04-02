@@ -1,4 +1,5 @@
-﻿using SQLite;
+﻿using Microsoft.VisualBasic;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,9 @@ namespace Rabid_Time_Tracker
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
         [Indexed]
-        public string Name { get; set; }        
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public DateTime Started {get; set; }
     }
 }
+
