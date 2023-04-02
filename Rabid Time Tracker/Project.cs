@@ -17,6 +17,11 @@ namespace Rabid_Time_Tracker
         public string Name { get; set; }
         public string Description { get; set; }
         public DateTime Started {get; set; }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }
 
